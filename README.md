@@ -1,3 +1,19 @@
+# React Frontend Template
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+This template is a ready front-end project template in React with a basic REST Api to work with a backend application that already has user authentication ready to go.
+
+Link to live site [here]().
+
+<p align="center">
+<img src="https://res.cloudinary.com/dnbbm9vzi/image/upload/v1732212810/Screenshot_2024-11-21_at_6.13.18_PM_brxjgt.png" width="auto" height="auto" alt="image of the React template website home page"></p>
+
+## Platform features
+* Frontend in React.
+* API Documentation in Swagger & Redoc.
+* Two models (Profile & CRUD) which are reusable in any project.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
