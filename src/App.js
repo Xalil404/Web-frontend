@@ -8,6 +8,11 @@ import NotFound from './components/NotFound';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import Contact from './components/Contact';
+import Login from './components/auth/Login';
+import Register from './components/auth/Register';
+import Logout from './components/auth/Logout';
+import PrivateRoute from './components/auth/PrivateRoute';
+import Dashboard from './components/Dashboard';
 
 const App = () => {
   return (
@@ -17,6 +22,24 @@ const App = () => {
               <Route path="/" element={<Home />} />
               <Route path="*" element={<NotFound />} /> {/* Fallback route for 404 Page */}
               <Route path="/contact" element={<Contact />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route 
+                    path="/dashboard" 
+                    element={
+                        <PrivateRoute>
+                            <Dashboard />
+                        </PrivateRoute>
+                    } 
+                /> 
+              <Route 
+                    path="/logout" 
+                    element={
+                        <PrivateRoute>
+                            <Logout />
+                        </PrivateRoute>
+                    } 
+                /> {/* Make Logout a private route */}
           </Routes>
       </Router>
   );
