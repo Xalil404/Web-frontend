@@ -1,6 +1,7 @@
 // src/components/Register.js
 import React, { useState } from 'react';
 import { registerUser } from '../../services/api'; // Import the registerUser function
+import { loginUser } from '../../services/api';
 import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
@@ -16,16 +17,22 @@ const Register = () => {
         e.preventDefault();
         setError(''); // Clear any previous errors
         try {
+            // Register the user
             const response = await registerUser({ username, email, password1, password2 });
-            console.log(response); // Handle success (e.g., log response)
-
-            // Redirect to the email verification page
-            navigate('/dashboard'); // Replace with your actual verification page path
+            console.log('Registration Response:', response); // Log the registration response
+    
+            // Automatically log in the user after registration
+            const loginResponse = await loginUser({ username, password: password1 });
+            localStorage.setItem('authToken', loginResponse.token); // Save token for authentication
+    
+            // Redirect to the dashboard
+            navigate('/dashboard');
         } catch (error) {
-            console.error(error); // Log the error response
-            setError('Registration failed. Please check your details.'); // Display error
+            console.error('Error during registration/login:', error);
+            setError('Registration failed. Please check your details.');
         }
     };
+    
 
     return (
         <div className="container mt-5">
