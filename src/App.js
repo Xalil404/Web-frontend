@@ -13,6 +13,8 @@ import Register from './components/auth/Register';
 import Logout from './components/auth/Logout';
 import PrivateRoute from './components/auth/PrivateRoute';
 import Dashboard from './components/Dashboard';
+import Tasks from './components/Tasks';
+
 
 const App = () => {
   return (
@@ -29,6 +31,14 @@ const App = () => {
                     element={
                         <PrivateRoute>
                             <Dashboard />
+                        </PrivateRoute>
+                    } 
+                /> 
+                <Route 
+                    path="/tasks" 
+                    element={
+                        <PrivateRoute>
+                            <Tasks />
                         </PrivateRoute>
                     } 
                 /> 

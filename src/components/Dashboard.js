@@ -51,15 +51,15 @@ const Dashboard = () => {
                             </li>
                             <hr className="divider" />
                             <li className="nav-item">
-                                <Link className="nav-link text-dark" to="/birthdays">Tasks</Link>
+                                <Link className="nav-link text-dark" to="/tasks">Tasks</Link>
                             </li>
                             <hr className="divider" />
                             <li className="nav-item">
-                                <Link className="nav-link text-dark" to="/anniversaries">Profile</Link>
+                                <Link className="nav-link text-dark" to="/profile">Profile</Link>
                             </li>
                             <hr className="divider" />
                             <li className="nav-item">
-                                <Link className="nav-link text-dark" to="/holidays">Feature 1</Link>
+                                <Link className="nav-link text-dark" to="/feature1">Feature 1</Link>
                             </li>
                             <hr className="divider" />
                         </ul>

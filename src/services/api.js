@@ -44,7 +44,7 @@ export const loginUser = async (credentials) => {
     }
 };
 
-// Function to fetch user profile
+// Function to fetch user profile in side navigation menu
 export const fetchUserProfile = async (token) => {
     try {
         const response = await axios.get(`${API_URL}/profile/`, {
@@ -55,3 +55,54 @@ export const fetchUserProfile = async (token) => {
         throw error.response.data; // Handle the error response
     }
 };
+
+
+// Function to fetch tasks
+export const fetchTasks = async (token) => {
+    try {
+        const response = await axios.get(`${API_URL}/tasks/`, {
+            headers: { Authorization: `Token ${token}` } // Adjust based on your authentication method
+        });
+        return response.data; // Returns the list of tasks
+    } catch (error) {
+        throw error.response.data; // Handle the error tasks
+    }
+};
+
+// Function to create a new task
+export const createTask = async (taskData, token) => {
+    try {
+        const response = await axios.post(`${API_URL}/tasks/`, taskData, {
+            headers: { Authorization: `Token ${token}` } // Adjust based on your authentication method
+        });
+        return response.data; // Returns the created task data
+    } catch (error) {
+        throw error.response.data; // Handle the error response
+    }
+};
+
+// Function to update a tasks
+export const updateTask = async (taskId, taskData, token) => {
+    try {
+        const response = await axios.put(`${API_URL}/tasks/${taskId}/`, taskData, {
+            headers: { Authorization: `Token ${token}` } // Adjust based on your authentication method
+        });
+        return response.data; // Returns the updated task data
+    } catch (error) {
+        throw error.response.data; // Handle the error response
+    }
+};
+
+// Function to delete a task
+export const deleteTask = async (taskId, token) => {
+    try {
+        const response = await axios.delete(`${API_URL}/tasks/${taskId}/`, {
+            headers: { Authorization: `Token ${token}` } // Adjust based on your authentication method
+        });
+        return response.data; // Optionally return a success message or response
+    } catch (error) {
+        throw error.response.data; // Handle the error response
+    }
+};
+
+
