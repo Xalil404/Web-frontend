@@ -104,3 +104,42 @@ export const deleteTask = async (taskId, token) => {
         throw error.response.data; // Handle the error response
     }
 };
+
+
+// Function to fetch the user's profile
+export const fetchProfile = async (token) => {
+    try {
+        const response = await axios.get(`${API_URL}/profile/`, {
+            headers: { Authorization: `Token ${token}` }
+        });
+        return response.data; // Returns the profile data
+    } catch (error) {
+        throw error.response.data; // Handle the error response
+    }
+};
+
+
+// Function to update the user's profile
+export const updateProfile = async (profileData, token) => {
+    try {
+        const response = await axios.put(`${API_URL}/profile/`, profileData, {
+            headers: { Authorization: `Token ${token}` }
+        });
+        return response.data; // Returns the updated profile data
+    } catch (error) {
+        throw error.response.data; // Handle the error response
+    }
+};
+
+
+// Function to delete the user's profile
+export const deleteProfile = async (token) => {
+    try {
+        const response = await axios.delete(`${API_URL}/profile/`, {
+            headers: { Authorization: `Token ${token}` }
+        });
+        return response.data; // Optionally return a success message or confirmation
+    } catch (error) {
+        throw error.response.data; // Handle the error response
+    }
+};
