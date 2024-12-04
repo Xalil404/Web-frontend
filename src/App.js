@@ -15,6 +15,7 @@ import PrivateRoute from './components/auth/PrivateRoute';
 import Dashboard from './components/Dashboard';
 import Tasks from './components/Tasks';
 import Profile from './components/Profile';
+import GoogleLoginPage from './components/auth/GoogleLoginPage';
 
 
 const App = () => {
@@ -27,6 +28,7 @@ const App = () => {
               <Route path="/contact" element={<Contact />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/google-login" element={<GoogleLoginPage />} />
               <Route 
                     path="/dashboard" 
                     element={
