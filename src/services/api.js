@@ -63,9 +63,9 @@ export const fetchTasks = async (token) => {
         const response = await axios.get(`${API_URL}/tasks/`, {
             headers: { Authorization: `Token ${token}` } // Adjust based on your authentication method
         });
-        return response.data; // Returns the list of tasks
+        return response.data; // Returns the list of birthdays
     } catch (error) {
-        throw error.response.data; // Handle the error tasks
+        throw error.response.data; // Handle the error response
     }
 };
 
@@ -75,19 +75,19 @@ export const createTask = async (taskData, token) => {
         const response = await axios.post(`${API_URL}/tasks/`, taskData, {
             headers: { Authorization: `Token ${token}` } // Adjust based on your authentication method
         });
-        return response.data; // Returns the created task data
+        return response.data; // Returns the created birthday data
     } catch (error) {
         throw error.response.data; // Handle the error response
     }
 };
 
-// Function to update a tasks
+// Function to update a task
 export const updateTask = async (taskId, taskData, token) => {
     try {
         const response = await axios.put(`${API_URL}/tasks/${taskId}/`, taskData, {
             headers: { Authorization: `Token ${token}` } // Adjust based on your authentication method
         });
-        return response.data; // Returns the updated task data
+        return response.data; // Returns the updated birthday data
     } catch (error) {
         throw error.response.data; // Handle the error response
     }
@@ -104,5 +104,3 @@ export const deleteTask = async (taskId, token) => {
         throw error.response.data; // Handle the error response
     }
 };
-
-
