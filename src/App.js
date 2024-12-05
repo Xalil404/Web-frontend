@@ -15,8 +15,8 @@ import PrivateRoute from './components/auth/PrivateRoute';
 import Dashboard from './components/Dashboard';
 import Tasks from './components/Tasks';
 import Profile from './components/Profile';
-import GoogleLoginPage from './components/auth/GoogleLoginPage';
-
+import GoogleLoginPagePopup from './components/auth/GoogleLoginPagePopup';
+import GoogleLoginPageRedirect from './components/auth/GoogleLoginPageRedirect';
 
 const App = () => {
   return (
@@ -28,7 +28,8 @@ const App = () => {
               <Route path="/contact" element={<Contact />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/google-login" element={<GoogleLoginPage />} />
+              <Route path="/google-login" element={<GoogleLoginPagePopup />} />
+              <Route path="/google-login-redirect" element={<GoogleLoginPageRedirect />} />
               <Route 
                     path="/dashboard" 
                     element={

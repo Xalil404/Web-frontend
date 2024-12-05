@@ -65,6 +65,14 @@ const Header = () => {
                                 >
                                     Sign in with Google
                                 </Link>
+
+                                <Link
+                                    className="nav-link-a d-none d-lg-block text-dark"
+                                    style={{ marginRight: '10px', textDecoration: 'none' }}
+                                    to="/google-login-redirect" // Adjust this to the path of your Google login page
+                                >
+                                    Sign in with Google Redirect
+                                </Link>
                                
                                 <Link
                                     className="nav-link btn btn-sm rounded-pill px-4"
