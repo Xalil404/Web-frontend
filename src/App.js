@@ -17,6 +17,7 @@ import Tasks from './components/Tasks';
 import Profile from './components/Profile';
 import GoogleLoginPagePopup from './components/auth/GoogleLoginPagePopup';
 import GoogleLoginPageRedirect from './components/auth/GoogleLoginPageRedirect';
+import GoogleRedirectHandler from './components/auth/GoogleRedirectHandler';
 
 const App = () => {
   return (
@@ -29,7 +30,8 @@ const App = () => {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/google-login" element={<GoogleLoginPagePopup />} />
-              <Route path="/google-login-redirect" element={<GoogleLoginPageRedirect />} />
+              <Route path="/google-login-1" element={<GoogleLoginPageRedirect />} />
+              <Route path="/google-login-redirect" element={<GoogleRedirectHandler />} />
               <Route 
                     path="/dashboard" 
                     element={

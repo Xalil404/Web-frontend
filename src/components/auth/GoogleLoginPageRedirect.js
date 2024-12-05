@@ -1,19 +1,20 @@
-import React, { useEffect } from 'react';
-import { GoogleOAuthProvider, GoogleLogin, googleLogout } from '@react-oauth/google';
-import { useNavigate, useLocation } from 'react-router-dom';
+// GoogleLoginPageRedirect.jsx
+import React from 'react';
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { useNavigate } from 'react-router-dom';
 
-const GoogleLoginPage = () => {
-    const navigate = useNavigate();
-    const location = useLocation();
+const GoogleLoginPageRedirect = () => {
+    const navigate = useNavigate();  // Initialize navigate function
 
     const responseGoogle = (response) => {
         console.log("Google Response:", response);
 
+        // Construct user data with token
         const userData = {
             token: response.credential,
         };
 
-        // Send the token to your Django backend
+        // Send token to your Django backend
         fetch('https://backend-django-9c363a145383.herokuapp.com/api/auth/google/', {
             method: 'POST',
             headers: {
@@ -24,9 +25,13 @@ const GoogleLoginPage = () => {
         .then((res) => res.json())
         .then((data) => {
             console.log("Backend Response:", data);
+            // Handle successful login (e.g., store token, redirect user)
             if (data.token) {
+                // Save the token locally
                 localStorage.setItem('authToken', data.token);
-                navigate('/dashboard'); // Redirect to dashboard
+
+                // Redirect to /dashboard
+                navigate('/dashboard');
             }
         })
         .catch((error) => {
@@ -34,41 +39,13 @@ const GoogleLoginPage = () => {
         });
     };
 
-    useEffect(() => {
-        // Check for Google redirect response
-        const params = new URLSearchParams(location.search);
-        const code = params.get('code');
-        const state = params.get('state');
-
-        if (code) {
-            console.log("Authorization Code:", code);
-            // Exchange the code with your backend to get the token
-            fetch('https://backend-django-9c363a145383.herokuapp.com/api/auth/google/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ code, state }),
-            })
-            .then((res) => res.json())
-            .then((data) => {
-                if (data.token) {
-                    localStorage.setItem('authToken', data.token);
-                    navigate('/dashboard');
-                }
-            })
-            .catch((error) => console.error('Error:', error));
-        }
-    }, [location, navigate]);
-
     return (
         <GoogleOAuthProvider clientId="26271032790-djnijd5ookmvg0d58pneg2l8l6bdgvbn.apps.googleusercontent.com">
             <div>
                 <h1>Google Login</h1>
                 <GoogleLogin
-                    ux_mode="redirect"
-                    redirectUri="https://web-frontend-dun.vercel.app/google-login-redirect"
-                    //redirectUri="http://localhost:3000/google-login-redirect"
+                    ux_mode="redirect"  // Use redirect mode for this flow
+                    redirectUri="https://web-frontend-dun.vercel.app/google-login-redirect"  // The redirect URI to handle the authorization response
                     onSuccess={responseGoogle}
                     onError={() => console.error('Login Failed')}
                 />
@@ -77,4 +54,7 @@ const GoogleLoginPage = () => {
     );
 };
 
-export default GoogleLoginPage;
+export default GoogleLoginPageRedirect;
+
+
+
