@@ -52,7 +52,7 @@ const GoogleLoginPage = () => {
                 */}
                 <GoogleLogin
                     ux_mode="redirect"
-                    redirectUri="https://web-frontend-dun.vercel.app/accounts/google/login/callback/"
+                    redirectUri="https://web-frontend-dun.vercel.app/google-login"
                     onSuccess={responseGoogle}
                     onError={() => console.error('Login Failed')}
                 />
