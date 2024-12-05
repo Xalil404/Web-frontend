@@ -16,7 +16,7 @@ import Dashboard from './components/Dashboard';
 import Tasks from './components/Tasks';
 import Profile from './components/Profile';
 import GoogleLoginPagePopup from './components/auth/GoogleLoginPagePopup';
-import GoogleLoginPageRedirect from './components/auth/GoogleLoginPageRedirect';
+
 
 
 
@@ -31,8 +31,6 @@ const App = () => {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/google-login" element={<GoogleLoginPagePopup />} />
-              <Route path="/google-login-redirect" element={<GoogleLoginPageRedirect />} />
-
               <Route 
                     path="/dashboard" 
                     element={

@@ -42,21 +42,12 @@ const GoogleLoginPage = () => {
         <GoogleOAuthProvider clientId="26271032790-djnijd5ookmvg0d58pneg2l8l6bdgvbn.apps.googleusercontent.com">
             <div>
                 <h1>Google Login</h1>
-                
                 <GoogleLogin
                     onSuccess={responseGoogle}
                     onError={() => console.error('Login Failed')}
                     ux_mode="popup"
                     cookiePolicy="single_host_origin"
                 />
-                {/*
-                <GoogleLogin
-                    ux_mode="redirect"
-                    redirectUri="https://web-frontend-dun.vercel.app/google-login"
-                    onSuccess={responseGoogle}
-                    onError={() => console.error('Login Failed')}
-                />
-                */}
             </div>
         </GoogleOAuthProvider>
     );
