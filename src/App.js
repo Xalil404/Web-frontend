@@ -17,7 +17,7 @@ import Tasks from './components/Tasks';
 import Profile from './components/Profile';
 import GoogleLoginPagePopup from './components/auth/GoogleLoginPagePopup';
 import AppleLoginPage from './components/auth/AppleLoginPage';
-import AppleCallbackPage from './components/auth/AppleCallbackPage';
+
 
 
 
@@ -33,7 +33,7 @@ const App = () => {
               <Route path="/register" element={<Register />} />
               <Route path="/google-login" element={<GoogleLoginPagePopup />} />
               <Route path="/apple-login" element={<AppleLoginPage />} />
-              <Route path="/auth/callback" element={<AppleCallbackPage />} />
+              
               <Route 
                     path="/dashboard" 
                     element={
