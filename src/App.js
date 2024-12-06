@@ -16,7 +16,7 @@ import Dashboard from './components/Dashboard';
 import Tasks from './components/Tasks';
 import Profile from './components/Profile';
 import GoogleLoginPagePopup from './components/auth/GoogleLoginPagePopup';
-
+import AppleLoginPage from './components/auth/AppleLoginPage';
 
 
 
@@ -31,6 +31,7 @@ const App = () => {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/google-login" element={<GoogleLoginPagePopup />} />
+              <Route path="/apple-login" element={<AppleLoginPage />} />
               <Route 
                     path="/dashboard" 
                     element={
