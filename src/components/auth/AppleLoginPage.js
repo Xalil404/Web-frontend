@@ -1,18 +1,28 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';  // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 
 const AppleSignInButton = () => {
-    const navigate = useNavigate();  // Initialize navigate function
+  const navigate = useNavigate();  // Initialize navigate function
+
   useEffect(() => {
     const initializeAppleID = () => {
       if (window.AppleID && window.AppleID.auth) {
         window.AppleID.auth.init({
           clientId: 'com.template.applicationwebproject', // Your Apple Service ID
           scope: 'email name',
-          redirectURI: 'https://web-frontend-dun.vercel.app/dashboard', // Callback URL
+          redirectURI: 'https://web-frontend-dun.vercel.app/auth/callback', // Callback URL
           state: 'some-state', // Optional for CSRF protection
           nonce: 'random-nonce', // Optional for extra security
         });
+
+        // Listen to the Apple sign-in button click event
+        window.AppleID.auth.onSuccess = (response) => {
+          handleAppleSignIn(response);
+        };
+
+        window.AppleID.auth.onFailure = (error) => {
+          console.error('Apple Sign-In Error: ', error);
+        };
       } else {
         console.error('AppleID.auth is not available');
       }
@@ -32,6 +42,7 @@ const AppleSignInButton = () => {
   const handleAppleSignIn = (response) => {
     const appleToken = response.authorization.id_token;
 
+    // Send the token to your backend to authenticate the user
     fetch('/api/auth/apple/web/', {
       method: 'POST',
       headers: {
@@ -42,7 +53,10 @@ const AppleSignInButton = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log('Sign-in successful:', data);
-        // Redirect to /dashboard
+        // Save the token to localStorage or cookies
+        localStorage.setItem('auth_token', data.token);
+
+        // Redirect to the dashboard page
         navigate('/dashboard');
       })
       .catch((error) => {
