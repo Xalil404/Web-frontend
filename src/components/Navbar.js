@@ -69,6 +69,14 @@ const Header = () => {
                                 <Link
                                     className="nav-link-a d-none d-lg-block text-dark"
                                     style={{ marginRight: '10px', textDecoration: 'none' }}
+                                    to="/google-redirect" // Adjust this to the path of your Google login page
+                                >
+                                    Sign in with Google Redirect
+                                </Link>
+
+                                <Link
+                                    className="nav-link-a d-none d-lg-block text-dark"
+                                    style={{ marginRight: '10px', textDecoration: 'none' }}
                                     to="/apple-login" // Adjust this to the path of your Google login page
                                 >
                                     Sign in with Apple

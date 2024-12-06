@@ -1,6 +1,7 @@
 // src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { GoogleOAuthProvider } from '@react-oauth/google'; // Import the provider
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './App.css';
@@ -16,6 +17,7 @@ import Dashboard from './components/Dashboard';
 import Tasks from './components/Tasks';
 import Profile from './components/Profile';
 import GoogleLoginPagePopup from './components/auth/GoogleLoginPagePopup';
+import GoogleRedirectLogin from './components/auth/GoogleRedirectLogin';
 import AppleLoginPage from './components/auth/AppleLoginPage';
 
 
@@ -32,6 +34,7 @@ const App = () => {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/google-login" element={<GoogleLoginPagePopup />} />
+              <Route path="/google-redirect" element={<GoogleRedirectLogin />} />
               <Route path="/apple-login" element={<AppleLoginPage />} />
               
               <Route 
