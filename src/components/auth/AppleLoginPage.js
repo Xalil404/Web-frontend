@@ -9,7 +9,7 @@ const AppleSignInButton = () => {
         window.AppleID.auth.init({
           clientId: 'com.template.applicationwebproject', // Your Apple Service ID
           scope: 'email name',
-          redirectURI: 'https://web-frontend-dun.vercel.app/auth/callback', // Callback URL
+          redirectURI: 'https://web-frontend-dun.vercel.app/dashboard', // Callback URL
           state: 'some-state', // Optional for CSRF protection
           nonce: 'random-nonce', // Optional for extra security
         });
