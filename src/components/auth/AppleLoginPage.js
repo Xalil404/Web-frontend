@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';  // Import useNavigate
 
 const AppleSignInButton = () => {
+    const navigate = useNavigate();  // Initialize navigate function
   useEffect(() => {
     const initializeAppleID = () => {
       if (window.AppleID && window.AppleID.auth) {
@@ -40,6 +42,8 @@ const AppleSignInButton = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log('Sign-in successful:', data);
+        // Redirect to /dashboard
+        navigate('/dashboard');
       })
       .catch((error) => {
         console.error('Error during authentication:', error);
