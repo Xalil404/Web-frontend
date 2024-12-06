@@ -7,7 +7,7 @@ const AppleSignInButton = () => {
     const initializeAppleID = () => {
       if (window.AppleID && window.AppleID.auth) {
         window.AppleID.auth.init({
-          clientId: 'com.template.applicationproject', // Your Apple Service ID
+          clientId: 'com.template.applicationwebproject', // Your Apple Service ID
           scope: 'email name',
           redirectURI: 'https://web-frontend-dun.vercel.app/auth/callback', // Callback URL
           state: 'some-state', // Optional for CSRF protection
