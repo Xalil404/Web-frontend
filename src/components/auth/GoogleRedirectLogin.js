@@ -8,39 +8,42 @@ const GoogleRedirectLogin = () => {
   const [loading, setLoading] = useState(false);
   const [userToken, setUserToken] = useState(null);
 
-  // Function to handle redirect response from Google
+  // Function to handle the redirect response from Google
   const handleGoogleRedirect = async () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('credential'); // Google returns 'credential' as the query parameter
+    try {
+      // Parse the URL fragment for the id_token
+      const hashParams = new URLSearchParams(window.location.hash.substring(1));
+      const idToken = hashParams.get('id_token'); // Google provides the token in the URL fragment
 
-    if (token) {
-      try {
-        setLoading(true);
-
-        // Send the token to the backend for verification
-        const response = await fetch('https://backend-django-9c363a145383.herokuapp.com/api/auth/google-redirect/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ token }),
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-          // Save the token or use it as needed
-          setUserToken(data.token);
-          console.log('User authenticated successfully:', data);
-        } else {
-          throw new Error(data.error || 'Authentication failed.');
-        }
-      } catch (err) {
-        setError(err.message);
-        console.error('Error during authentication:', err);
-      } finally {
-        setLoading(false);
+      if (!idToken) {
+        throw new Error('No ID token found in the URL.');
       }
+
+      setLoading(true);
+
+      // Send the token to the backend for verification
+      const response = await fetch('https://backend-django-9c363a145383.herokuapp.com/api/auth/google-redirect/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ token: idToken }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Save the token or use it as needed
+        setUserToken(data.token);
+        console.log('User authenticated successfully:', data);
+      } else {
+        throw new Error(data.error || 'Authentication failed.');
+      }
+    } catch (err) {
+      setError(err.message);
+      console.error('Error during authentication:', err);
+    } finally {
+      setLoading(false);
     }
   };
 
