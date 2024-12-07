@@ -1,5 +1,5 @@
 // GoogleRedirectLogin.js (Frontend - React)
-// GoogleRedirectLogin.js
+
 import React, { useState, useEffect } from 'react';
 import jwt_decode from 'jwt-decode';
 
@@ -10,15 +10,15 @@ const GoogleRedirectLogin = () => {
 
   // Function to handle the redirect response from Google
   const handleGoogleRedirect = async () => {
+    // Parse the URL fragment for the id_token
+    const hashParams = new URLSearchParams(window.location.hash.substring(1));
+    const idToken = hashParams.get('id_token'); // Google provides the token in the URL fragment
+
+    if (!idToken) {
+      return; // Exit the function if there's no id_token
+    }
+
     try {
-      // Parse the URL fragment for the id_token
-      const hashParams = new URLSearchParams(window.location.hash.substring(1));
-      const idToken = hashParams.get('id_token'); // Google provides the token in the URL fragment
-
-      if (!idToken) {
-        throw new Error('No ID token found in the URL.');
-      }
-
       setLoading(true);
 
       // Send the token to the backend for verification
