@@ -45,7 +45,7 @@ const GoogleRedirectLogin = () => {
                 onSuccess={handleSuccess}
                 onError={handleError}
                 ux_mode="redirect"
-                redirectUri="https://web-frontend-dun.vercel.app/google/callback/" // Update for your app's domain
+                redirectUri="https://web-frontend-dun.vercel.app/google-redirect/google/callback/" // Update for your app's domain
             />
         </div>
     );
