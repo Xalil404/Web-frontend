@@ -19,7 +19,7 @@ import Profile from './components/Profile';
 import GoogleLoginPagePopup from './components/auth/GoogleLoginPagePopup';
 import GoogleRedirectLogin from './components/auth/GoogleRedirectLogin';
 import AppleLoginPage from './components/auth/AppleLoginPage';
-import GoogleCallback from './components/auth/GoogleCallback';
+
 
 
 
@@ -37,7 +37,6 @@ const App = () => {
               <Route path="/google-login" element={<GoogleLoginPagePopup />} />
               <Route path="/google-redirect" element={<GoogleRedirectLogin />} />
               <Route path="/apple-login" element={<AppleLoginPage />} />
-              <Route path="/google/callback" element={<GoogleCallback />} />
 
               <Route 
                     path="/dashboard" 
