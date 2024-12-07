@@ -1,4 +1,7 @@
+// GoogleRedirectLogin.js (Frontend - React)
+
 import React, { useState, useEffect } from 'react';
+import jwt_decode from 'jwt-decode';
 
 const GoogleRedirectLogin = () => {
   const [error, setError] = useState(null);
@@ -30,12 +33,7 @@ const GoogleRedirectLogin = () => {
       const data = await response.json();
 
       if (response.ok) {
-        // If the backend sends a redirect URL
-        if (data.redirect) {
-          // Redirect the user to the /dashboard page
-          window.location.href = data.redirect;
-        }
-
+        // Save the token or use it as needed
         setUserToken(data.token);
         console.log('User authenticated successfully:', data);
       } else {
