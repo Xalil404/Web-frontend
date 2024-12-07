@@ -45,7 +45,7 @@ const GoogleRedirectLogin = () => {
                 onSuccess={handleSuccess}
                 onError={handleError}
                 ux_mode="redirect"
-                redirectUri="https://web-frontend-dun.vercel.app/google-redirect" // Update for your app's domain
+                redirectUri="https://backend-django-9c363a145383.herokuapp.com/api/auth/google-redirect/" // Update for your app's domain
             />
         </div>
     );
