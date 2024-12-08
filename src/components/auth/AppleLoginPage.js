@@ -63,17 +63,17 @@ const AppleLoginPage = () => {
         return response.json();
       })
       .then((data) => {
-        console.log('Received redirect URL:', data.redirect);
+        console.log('Backend Response:', data);
         if (data.token) {
-          console.log('Authentication successful:', data);
+          console.log('Authentication successful, storing token');
           localStorage.setItem('auth_token', data.token);
-          navigate(data.redirect); // Use navigate for client-side redirection
+          console.log('Redirecting to:', data.redirect);
+      
+          // Use window.location.replace to force a full page redirect
+          window.location.replace(data.redirect);
         } else {
           console.error('Error during authentication:', data.error);
         }
-      })
-      .catch((error) => {
-        console.error('Error during fetch:', error.message);
       });
   };
 
