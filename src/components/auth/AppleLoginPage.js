@@ -11,7 +11,7 @@ const AppleLoginPage = () => {
           scope: 'name email', // Define the scope (email and name)
           redirectURI: 'https://web-frontend-dun.vercel.app/auth/callback', // The redirect URI you set in Apple Developer Console
           state: 'state', // Optional: Pass a state parameter to verify in the backend
-          usePopup: true, // Optional: Open in a popup for a smoother UX
+          usePopup: false, // Optional: Open in a popup for a smoother UX or set to False for redirect
         });
         console.log('AppleID SDK initialized'); // Log to verify the initialization
       }
@@ -24,13 +24,9 @@ const AppleLoginPage = () => {
   const handleAppleLogin = () => {
     window.AppleID.auth.signIn()
       .then(response => {
-        // On success, send the response token to your backend
+        console.log('Apple Sign-In response:', response); // Log the entire response
         const { id_token } = response;
-        
-        // Log the id_token to verify it
-        console.log('Sending token:', id_token);
-  
-        // Ensure the id_token is not null or empty
+        console.log('Sending token:', id_token); // Log the id_token to ensure it's present
         if (id_token) {
           authenticateWithBackend(id_token);
         } else {
@@ -41,6 +37,7 @@ const AppleLoginPage = () => {
         console.error('Apple Sign-In error:', error);
       });
   };
+  
   
 
   // Send the Apple ID token to the backend for validation and user authentication
