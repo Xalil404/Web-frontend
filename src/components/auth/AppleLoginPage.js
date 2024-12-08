@@ -46,7 +46,7 @@ const AppleLoginPage = () => {
 
   // Send id_token to backend for verification
   const authenticateWithBackend = (id_token) => {
-    fetch('http://127.0.0.1:8000/api/auth/apple/web/', {
+    fetch('https://backend-django-9c363a145383.herokuapp.com/api/auth/apple/web/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
