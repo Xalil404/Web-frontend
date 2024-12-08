@@ -1,81 +1,84 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Only needed if using React Router
 
-const AppleLoginPageRedirect = () => {
-  const navigate = useNavigate(); // Hook for navigation
+const AppleRedirectLogin = () => {
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate(); // Only needed if using React Router
 
-  // Initialize Apple Login Redirect Flow (Optional)
+  // Function to handle the redirect response from Apple
+  const handleAppleRedirect = async () => {
+    // Parse the URL query for the code parameter (Apple sends the code in the URL query)
+    const queryParams = new URLSearchParams(window.location.search);
+    const code = queryParams.get('code'); // Apple provides the authorization code in the query params
+
+    if (!code) {
+      return; // Exit the function if there's no authorization code
+    }
+
+    try {
+      setLoading(true);
+
+      // Send the authorization code to the backend for verification
+      const response = await fetch('https://backend-django-9c363a145383.herokuapp.com/api/auth/apple/web-redirect/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ code }), // Send the authorization code received from Apple
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Store the token in localStorage for persistent login
+        if (data.token) {
+          localStorage.setItem('authToken', data.token);
+        }
+
+        // Redirect the user to the /dashboard page
+        if (data.redirect) {
+          window.location.href = data.redirect; // Full-page reload
+          // OR use React Router for smoother navigation
+          // navigate(data.redirect);
+        }
+      } else {
+        throw new Error(data.error || 'Authentication failed.');
+      }
+    } catch (err) {
+      setError(err.message);
+      console.error('Error during authentication:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    console.log('Apple Login Page is ready for redirect flow.');
+    handleAppleRedirect(); // Call the function when the component mounts
   }, []);
 
-  // Handle Apple Login Redirect Flow
-  const handleAppleLoginRedirect = () => {
-    const clientID = 'com.template.applicationwebproject'; // Your Apple client ID
-    const redirectURI = 'https://web-frontend-dun.vercel.app/auth/callback'; // Your redirect URI
+  // Function to initiate the Apple login redirect
+  const handleLogin = () => {
+    const clientId = 'com.template.applicationwebproject'; // Your Apple client ID
+    const redirectUri = 'https://web-frontend-dun.vercel.app/auth/callback'; // Your frontend redirect URI
     const state = Math.random().toString(36).substring(2); // Optional: CSRF protection state
     const scope = 'name email'; // Define what data you want from the user (e.g., name, email)
 
-    // Redirect to Apple's authorization endpoint
-    window.location.href = `https://appleid.apple.com/auth/authorize?client_id=${clientID}&redirect_uri=${redirectURI}&response_type=code&scope=${scope}&state=${state}&response_mode=form_post`;
-  };
-
-  // Handle the callback from Apple after redirect
-  useEffect(() => {
-    const queryParams = new URLSearchParams(window.location.search);
-    const code = queryParams.get('code'); // Extract the 'code' parameter
-    const error = queryParams.get('error'); // Handle errors if they occur
-
-    if (error) {
-      console.error('Apple Login Error:', error);
-      return;
-    }
-
-    if (code) {
-      // Send the authorization code to the backend to exchange for a JWT token
-      authenticateWithBackend(code);
-    }
-  }, []); // This effect runs only once when the component mounts
-
-  // Function to send the authorization code to the backend
-  const authenticateWithBackend = (code) => {
-    fetch('https://backend-django-9c363a145383.herokuapp.com/api/auth/apple/web-redirect/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ code }), // Send the authorization code received from Apple
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json(); // Parse the response JSON
-      })
-      .then((data) => {
-        if (data.token) {
-          // Store the JWT token in localStorage if authentication is successful
-          localStorage.setItem('authToken', data.token);
-
-          // Redirect to the page specified in the response (e.g., dashboard)
-          window.location.href = data.redirect || '/dashboard'; // Default to '/dashboard' if no redirect is provided
-        } else {
-          console.error('Error during authentication:', data.error);
-        }
-      })
-      .catch((error) => {
-        console.error('Error during fetch:', error.message);
-      });
+    // Redirect to Apple's authorization page
+    window.location.href = `https://appleid.apple.com/auth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}&state=${state}&response_mode=form_post`;
   };
 
   return (
-    <div className="apple-login-container">
-      <h2>Login with Apple Redirect Flow</h2>
-      <button onClick={handleAppleLoginRedirect} className="apple-signin-button">
-        Sign in with Apple (Redirect Flow)
+    <div>
+      <h1>Apple Redirect Login</h1>
+
+      <button onClick={handleLogin} disabled={loading}>
+        {loading ? 'Redirecting...' : 'Login with Apple'}
       </button>
+
+      {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>
   );
 };
 
-export default AppleLoginPageRedirect;
+export default AppleRedirectLogin;
