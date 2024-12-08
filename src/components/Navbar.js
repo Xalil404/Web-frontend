@@ -63,7 +63,7 @@ const Header = () => {
                                     style={{ marginRight: '10px', textDecoration: 'none' }}
                                     to="/google-login" // Adjust this to the path of your Google login page
                                 >
-                                    Sign in with Google
+                                    Google Pop Up
                                 </Link>
 
                                 <Link
@@ -71,7 +71,7 @@ const Header = () => {
                                     style={{ marginRight: '10px', textDecoration: 'none' }}
                                     to="/google-redirect" // Adjust this to the path of your Google login page
                                 >
-                                    Sign in with Google Redirect
+                                    Google Redirect
                                 </Link>
 
                                 <Link
@@ -79,7 +79,7 @@ const Header = () => {
                                     style={{ marginRight: '10px', textDecoration: 'none' }}
                                     to="/apple-login" // Adjust this to the path of your Google login page
                                 >
-                                    Sign in with Apple
+                                    Apple Pop up
                                 </Link>
                                
                                 <Link

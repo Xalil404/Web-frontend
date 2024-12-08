@@ -1,77 +1,70 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-const AppleSignInPage = () => {
-    const navigate = useNavigate();  // Initialize navigate function
-
-    useEffect(() => {
-        const initializeAppleSignIn = () => {
-            if (window.AppleID && window.AppleID.auth) {
-                window.AppleID.auth.init({
-                    clientId: 'com.template.applicationwebproject', // Your Apple Service ID
-                    scope: 'email name',
-                    redirectURI: 'https://web-frontend-dun.vercel.app/auth/callback', // Your callback URL
-                    state: 'some-state', // Optional for CSRF protection
-                    nonce: 'random-nonce', // Optional for extra security
-                });
-
-                window.AppleID.auth.onSuccess = (response) => {
-                    handleAppleSignIn(response);
-                };
-
-                window.AppleID.auth.onFailure = (error) => {
-                    console.error('Apple Sign-In Error: ', error);
-                };
-            } else {
-                console.error('AppleID.auth is not available');
-            }
-        };
-
-        if (!window.AppleID) {
-            const script = document.createElement('script');
-            script.src = 'https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js';
-            script.onload = initializeAppleSignIn;
-            script.onerror = () => console.error('Failed to load Apple Sign-In SDK');
-            document.body.appendChild(script);
-        } else {
-            initializeAppleSignIn();
-        }
-    }, []);
-
-    const handleAppleSignIn = (response) => {
-        const appleToken = response.authorization.id_token;
-
-        // Send token to backend to authenticate the user
-        fetch('/api/auth/apple/web/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ apple_token: appleToken }),
-        })
-        .then((res) => res.json())
-        .then((data) => {
-            if (data.token) {
-                // Save the token locally
-                localStorage.setItem('authToken', data.token);
-
-                // Redirect to dashboard or home page
-                navigate('/dashboard');
-            } else {
-                console.error('Authentication failed');
-            }
-        })
-        .catch((error) => {
-            console.error('Error during Apple authentication:', error);
+const AppleLoginPage = () => {
+  
+  // Ensure the Apple Sign-In script is loaded
+  useEffect(() => {
+    const loadAppleSignIn = () => {
+      if (window.AppleID) {
+        window.AppleID.auth.init({
+          clientId: 'com.template.applicationwebproject', // Your Apple client ID
+          scope: 'name email', // Define the scope (email and name)
+          redirectURI: 'https://web-frontend-dun.vercel.app/auth/callback', // The redirect URI you set in Apple Developer Console
+          state: 'state', // Optional: Pass a state parameter to verify in the backend
+          usePopup: true, // Optional: Open in a popup for a smoother UX
         });
+      }
     };
 
-    return (
-        <div>
-            <h1>Apple Login</h1>
-            <div id="appleid-signin" onClick={() => window.AppleID.auth.signIn()}></div>
-        </div>
-    );
+    loadAppleSignIn();
+  }, []);
+
+  // Handle the sign-in process
+  const handleAppleLogin = () => {
+    window.AppleID.auth.signIn()
+      .then(response => {
+        // On success, send the response token to your backend
+        const { id_token } = response;
+        authenticateWithBackend(id_token);
+      })
+      .catch(error => {
+        console.error('Apple Sign-In error:', error);
+      });
+  };
+
+  // Send the Apple ID token to the backend for validation and user authentication
+  const authenticateWithBackend = (id_token) => {
+    fetch('/auth/apple/web/', { // Make sure this URL matches your Django endpoint
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token: id_token }), // Send the token to the backend
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.token) {
+          // Token received, store it in localStorage or state
+          localStorage.setItem('auth_token', data.token);
+
+          // Optionally, redirect the user to another page (e.g., dashboard)
+          window.location.href = data.redirect;
+        } else {
+          console.error('Error during authentication:', data.error);
+        }
+      })
+      .catch(error => console.error('Error during fetch:', error));
+  };
+
+  return (
+    <div className="apple-login-container">
+      <h2>Login with Apple</h2>
+      
+      <button onClick={handleAppleLogin} className="apple-signin-button">
+        Sign in with Apple
+      </button>
+    </div>
+  );
 };
 
-export default AppleSignInPage;
+export default AppleLoginPage;
