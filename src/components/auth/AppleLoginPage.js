@@ -23,15 +23,24 @@ const AppleLoginPage = () => {
   const handleAppleLogin = () => {
     window.AppleID.auth.signIn()
       .then(response => {
-        console.log('Apple Sign-In Response:', response); // Log the full response
         // On success, send the response token to your backend
         const { id_token } = response;
-        authenticateWithBackend(id_token);
+        
+        // Log the id_token to verify it
+        console.log('Sending token:', id_token);
+  
+        // Ensure the id_token is not null or empty
+        if (id_token) {
+          authenticateWithBackend(id_token);
+        } else {
+          console.error('Error: id_token is missing');
+        }
       })
       .catch(error => {
         console.error('Apple Sign-In error:', error);
       });
   };
+  
 
   // Send the Apple ID token to the backend for validation and user authentication
   const authenticateWithBackend = (id_token) => {
