@@ -9,7 +9,7 @@ const AppleLoginPage = () => {
           clientId: 'com.template.applicationwebproject', // Replace with your Apple client ID
           scope: 'name email',
           redirectURI: 'https://web-frontend-dun.vercel.app/auth/callback', // Replace with your redirect URI
-          state: 'state',
+          state: 'state', // Optional: Used for CSRF protection
           usePopup: true, // Use popup for better UX
         });
         console.log('AppleID SDK initialized');
@@ -63,7 +63,7 @@ const AppleLoginPage = () => {
         if (data.token) {
           console.log('Authentication successful:', data);
           localStorage.setItem('auth_token', data.token);
-          window.location.href = data.redirect;
+          window.location.href = data.redirect; // Redirect to dashboard or another page after login
         } else {
           console.error('Error during authentication:', data.error);
         }
@@ -72,7 +72,6 @@ const AppleLoginPage = () => {
         console.error('Error during fetch:', error.message);
       });
   };
-  
 
   return (
     <div className="apple-login-container">
