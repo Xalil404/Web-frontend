@@ -53,21 +53,26 @@ const AppleLoginPage = () => {
       },
       body: JSON.stringify({ token: id_token }),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
       .then((data) => {
         if (data.token) {
           console.log('Authentication successful:', data);
-          // Save the token to localStorage or manage in your app state
           localStorage.setItem('auth_token', data.token);
-
-          // Redirect to the dashboard or appropriate page
           window.location.href = data.redirect;
         } else {
           console.error('Error during authentication:', data.error);
         }
       })
-      .catch((error) => console.error('Error during fetch:', error));
+      .catch((error) => {
+        console.error('Error during fetch:', error.message);
+      });
   };
+  
 
   return (
     <div className="apple-login-container">
