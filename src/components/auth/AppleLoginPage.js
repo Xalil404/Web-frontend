@@ -13,6 +13,7 @@ const AppleLoginPage = () => {
           state: 'state', // Optional: Pass a state parameter to verify in the backend
           usePopup: true, // Optional: Open in a popup for a smoother UX
         });
+        console.log('AppleID SDK initialized'); // Log to verify the initialization
       }
     };
 
