@@ -1,19 +1,17 @@
-// src/components/auth/AppleLoginPageRedirect.js
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const AppleLoginPageRedirect = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Hook for navigation
 
   // Initialize Apple Login Redirect Flow (Optional)
   useEffect(() => {
-    // This ensures the page has loaded completely before any interactions
     console.log('Apple Login Page is ready for redirect flow.');
   }, []);
 
+  // Handle Apple Login Redirect Flow
   const handleAppleLoginRedirect = () => {
-    // Redirect to the Apple login page using the redirect authorization flow
-    const clientID = 'com.template.applicationwebproject'; // Replace with your Apple client ID
+    const clientID = 'com.template.applicationwebproject'; // Your Apple client ID
     const redirectURI = 'https://web-frontend-dun.vercel.app/auth/callback'; // Your redirect URI
     const state = Math.random().toString(36).substring(2); // Optional: CSRF protection state
     const scope = 'name email'; // Define what data you want from the user (e.g., name, email)
@@ -24,9 +22,8 @@ const AppleLoginPageRedirect = () => {
 
   // Handle the callback from Apple after redirect
   useEffect(() => {
-    // Check if we're on the callback URL and if the code is present in the query params
     const queryParams = new URLSearchParams(window.location.search);
-    const code = queryParams.get('code');
+    const code = queryParams.get('code'); // Extract the 'code' parameter
     const error = queryParams.get('error'); // Handle errors if they occur
 
     if (error) {
@@ -35,10 +32,10 @@ const AppleLoginPageRedirect = () => {
     }
 
     if (code) {
-      // Send the code to the backend to exchange for the JWT token
+      // Send the authorization code to the backend to exchange for a JWT token
       authenticateWithBackend(code);
     }
-  }, []); // Runs only once when the component mounts (when redirected back to this page)
+  }, []); // This effect runs only once when the component mounts
 
   // Function to send the authorization code to the backend
   const authenticateWithBackend = (code) => {
@@ -47,16 +44,21 @@ const AppleLoginPageRedirect = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ code }), // Send the code received from Apple
+      body: JSON.stringify({ code }), // Send the authorization code received from Apple
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json(); // Parse the response JSON
+      })
       .then((data) => {
         if (data.token) {
-          // Store the JWT token if authentication is successful
+          // Store the JWT token in localStorage if authentication is successful
           localStorage.setItem('authToken', data.token);
-          
-          // Redirect to the specified location (e.g., dashboard)
-          window.location.href = data.redirect; // Redirect URL from the backend
+
+          // Redirect to the page specified in the response (e.g., dashboard)
+          window.location.href = data.redirect || '/dashboard'; // Default to '/dashboard' if no redirect is provided
         } else {
           console.error('Error during authentication:', data.error);
         }
@@ -68,7 +70,7 @@ const AppleLoginPageRedirect = () => {
 
   return (
     <div className="apple-login-container">
-      <h2>Login with Apple Redirect</h2>
+      <h2>Login with Apple Redirect Flow</h2>
       <button onClick={handleAppleLoginRedirect} className="apple-signin-button">
         Sign in with Apple (Redirect Flow)
       </button>
