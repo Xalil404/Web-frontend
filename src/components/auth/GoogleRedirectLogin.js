@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Only if using React Router
 
 const GoogleRedirectLogin = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [userToken, setUserToken] = useState(null);
+  const navigate = useNavigate(); // Only needed if using React Router
 
   // Function to handle the redirect response from Google
   const handleGoogleRedirect = async () => {
@@ -30,14 +31,17 @@ const GoogleRedirectLogin = () => {
       const data = await response.json();
 
       if (response.ok) {
-        // If the backend sends a redirect URL
-        if (data.redirect) {
-          // Redirect the user to the /dashboard page
-          window.location.href = data.redirect;
+        // Store the token in localStorage for persistent login
+        if (data.token) {
+          localStorage.setItem('authToken', data.token);
         }
 
-        setUserToken(data.token);
-        console.log('User authenticated successfully:', data);
+        // Redirect the user to the /dashboard page
+        if (data.redirect) {
+          window.location.href = data.redirect; // Full-page reload
+          // OR use React Router for smoother navigation
+          // navigate(data.redirect);
+        }
       } else {
         throw new Error(data.error || 'Authentication failed.');
       }
@@ -71,7 +75,6 @@ const GoogleRedirectLogin = () => {
       </button>
 
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      {userToken && <p>Authentication successful. User token: {userToken}</p>}
     </div>
   );
 };
