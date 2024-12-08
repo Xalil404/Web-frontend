@@ -1,3 +1,4 @@
+// src/components/auth/AppleLoginPage.js Login through pop up method
 import React from 'react';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import { useNavigate } from 'react-router-dom';  // Import useNavigate
