@@ -48,7 +48,8 @@ const AppleLoginPage = () => {
   };
 
   // Send id_token to backend for verification
-  const authenticateWithBackend = (id_token) => {
+  // Send id_token to backend for verification
+const authenticateWithBackend = (id_token) => {
     fetch('https://backend-django-9c363a145383.herokuapp.com/api/auth/apple/web/', {
       method: 'POST',
       headers: {
@@ -63,19 +64,20 @@ const AppleLoginPage = () => {
         return response.json();
       })
       .then((data) => {
-        console.log('Backend Response:', data);
         if (data.token) {
-          console.log('Authentication successful, storing token');
-          localStorage.setItem('auth_token', data.token);
-          console.log('Redirecting to:', data.redirect);
-      
-          // Use window.location.replace to force a full page redirect
-          window.location.replace(data.redirect);
+          console.log('Authentication successful:', data);
+          localStorage.setItem('apple_auth_token', data.token); // Store Apple token under 'apple_auth_token'
+          console.log('Apple Auth Token:', localStorage.getItem('apple_auth_token')); // Check if token is saved
+          window.location.href = data.redirect; // Redirect to dashboard or another page after login
         } else {
           console.error('Error during authentication:', data.error);
         }
+      })
+      .catch((error) => {
+        console.error('Error during fetch:', error.message);
       });
   };
+  
 
   return (
     <div className="apple-login-container">
