@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const AppleLoginPage = () => {
+  const navigate = useNavigate();  // Hook for navigation
+
   // Load Apple Sign-In SDK and initialize
   useEffect(() => {
     const initializeAppleSignIn = () => {
@@ -63,7 +66,7 @@ const AppleLoginPage = () => {
         if (data.token) {
           console.log('Authentication successful:', data);
           localStorage.setItem('auth_token', data.token);
-          window.location.href = data.redirect; // Redirect to dashboard or another page after login
+          navigate(data.redirect); // Use navigate for client-side redirection
         } else {
           console.error('Error during authentication:', data.error);
         }
