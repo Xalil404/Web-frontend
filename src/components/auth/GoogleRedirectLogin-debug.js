@@ -1,4 +1,4 @@
-// GoogleRedirectLogin.js (Frontend - React)
+// GoogleRedirectLogin.js (Frontend - React) this code works with the debugging view in the backend https://gyazo.com/e5babc0f28001583b6ca133ac0c53a10
 
 import React, { useState, useEffect } from 'react';
 import jwt_decode from 'jwt-decode';
