@@ -23,6 +23,7 @@ const AppleLoginPage = () => {
   const handleAppleLogin = () => {
     window.AppleID.auth.signIn()
       .then(response => {
+        console.log('Apple Sign-In Response:', response); // Log the full response
         // On success, send the response token to your backend
         const { id_token } = response;
         authenticateWithBackend(id_token);
