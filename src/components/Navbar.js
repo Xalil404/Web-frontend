@@ -81,6 +81,14 @@ const Header = () => {
                                 >
                                     Apple Pop up
                                 </Link>
+
+                                <Link
+                                    className="nav-link-a d-none d-lg-block text-dark"
+                                    style={{ marginRight: '10px', textDecoration: 'none' }}
+                                    to="/apple-redirect" // Adjust this to the path of your Google login page
+                                >
+                                    Apple Redirect
+                                </Link>
                                
                                 <Link
                                     className="nav-link btn btn-sm rounded-pill px-4"
