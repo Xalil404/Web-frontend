@@ -34,7 +34,7 @@ const AppleLoginPage = () => {
 
   // Send the Apple ID token to the backend for validation and user authentication
   const authenticateWithBackend = (id_token) => {
-    fetch('/auth/apple/web/', { // Make sure this URL matches your Django endpoint
+    fetch('https://backend-django-9c363a145383.herokuapp.com/api/auth/apple/web/', { // Make sure this URL matches your Django endpoint
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
