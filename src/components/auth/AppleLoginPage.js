@@ -63,6 +63,7 @@ const AppleLoginPage = () => {
         return response.json();
       })
       .then((data) => {
+        console.log('Received redirect URL:', data.redirect);
         if (data.token) {
           console.log('Authentication successful:', data);
           localStorage.setItem('auth_token', data.token);
