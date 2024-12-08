@@ -66,9 +66,13 @@ const authenticateWithBackend = (id_token) => {
       .then((data) => {
         if (data.token) {
           console.log('Authentication successful:', data);
-          localStorage.setItem('apple_auth_token', data.token); // Store Apple token under 'apple_auth_token'
-          console.log('Apple Auth Token:', localStorage.getItem('apple_auth_token')); // Check if token is saved
-          window.location.href = data.redirect; // Redirect to dashboard or another page after login
+          
+          // Store the token under 'authToken' for all login types
+          localStorage.setItem('authToken', data.token); 
+          console.log('Auth Token:', localStorage.getItem('authToken')); // Check if token is saved
+          
+          // Redirect to the specified location (e.g., dashboard)
+          window.location.href = data.redirect;
         } else {
           console.error('Error during authentication:', data.error);
         }
@@ -77,6 +81,8 @@ const authenticateWithBackend = (id_token) => {
         console.error('Error during fetch:', error.message);
       });
   };
+  
+
   
 
   return (
