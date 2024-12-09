@@ -4,24 +4,6 @@ import { useNavigate } from 'react-router-dom';
 const AppleLoginRedirectPage = () => {
   const navigate = useNavigate(); // Hook for navigation
 
-  // Initialize Apple Sign-In SDK
-  useEffect(() => {
-    const initializeAppleSignIn = () => {
-      if (window.AppleID) {
-        window.AppleID.auth.init({
-          clientId: 'com.template.applicationwebproject', // Replace with your Apple client ID
-          scope: 'name email',
-          redirectURI: 'https://web-frontend-dun.vercel.app/auth/callback', // Your redirect URI
-          state: 'state', // Optional: CSRF protection
-          usePopup: false, // Switch to redirect method
-        });
-        console.log('AppleID SDK initialized for redirect');
-      }
-    };
-
-    initializeAppleSignIn();
-  }, []);
-
   // Parse query parameters after redirect
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -35,12 +17,8 @@ const AppleLoginRedirectPage = () => {
 
   // Send code to backend for token exchange
   const authenticateWithBackend = (code) => {
-    fetch('https://backend-django-9c363a145383.herokuapp.com/api/auth/apple/web/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ code: code }),  // Send the authorization code
+    fetch(`https://backend-django-9c363a145383.herokuapp.com/api/auth/apple/web/?code=${code}`, {  // Use GET and pass the code as a query param
+      method: 'GET',
     })
       .then((response) => {
         if (!response.ok) {
