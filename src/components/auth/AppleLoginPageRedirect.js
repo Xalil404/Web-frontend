@@ -25,22 +25,22 @@ const AppleLoginRedirectPage = () => {
   // Parse query parameters after redirect
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const id_token = params.get('id_token'); // Extract id_token from query string
+    const code = params.get('code'); // Extract code from query string
 
-    if (id_token) {
-      console.log('Token received from Apple:', id_token);
-      authenticateWithBackend(id_token);
+    if (code) {
+      console.log('Authorization code received from Apple:', code);
+      authenticateWithBackend(code);  // Send the authorization code to backend
     }
   }, []);
 
-  // Send id_token to backend for verification
-  const authenticateWithBackend = (id_token) => {
+  // Send code to backend for token exchange
+  const authenticateWithBackend = (code) => {
     fetch('https://backend-django-9c363a145383.herokuapp.com/api/auth/apple/web/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ token: id_token }),
+      body: JSON.stringify({ code: code }),  // Send the authorization code
     })
       .then((response) => {
         if (!response.ok) {
@@ -66,10 +66,9 @@ const AppleLoginRedirectPage = () => {
     <div className="apple-login-container">
       <h2>Login with Apple</h2>
       <a
-  href="https://appleid.apple.com/auth/authorize?client_id=com.template.applicationwebproject&scope=name%20email&response_type=code%20id_token&redirect_uri=https://web-frontend-dun.vercel.app/auth/callback&response_mode=form_post&state=state"
-  className="apple-signin-button"
->
-
+        href="https://appleid.apple.com/auth/authorize?client_id=com.template.applicationwebproject&scope=name%20email&response_type=code%20id_token&redirect_uri=https://web-frontend-dun.vercel.app/auth/callback&response_mode=form_post&state=state"
+        className="apple-signin-button"
+      >
         Sign in with Apple
       </a>
     </div>
