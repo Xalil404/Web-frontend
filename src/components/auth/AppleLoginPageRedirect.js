@@ -66,9 +66,10 @@ const AppleLoginRedirectPage = () => {
     <div className="apple-login-container">
       <h2>Login with Apple</h2>
       <a
-        href="https://appleid.apple.com/auth/authorize?client_id=com.template.applicationwebproject&scope=name%20email&response_type=code%20id_token&redirect_uri=https://web-frontend-dun.vercel.app/auth/callback&state=state"
-        className="apple-signin-button"
-      >
+  href="https://appleid.apple.com/auth/authorize?client_id=com.template.applicationwebproject&scope=name%20email&response_type=code%20id_token&redirect_uri=https://web-frontend-dun.vercel.app/auth/callback&response_mode=form_post&state=state"
+  className="apple-signin-button"
+>
+
         Sign in with Apple
       </a>
     </div>
