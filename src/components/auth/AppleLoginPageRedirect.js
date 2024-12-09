@@ -27,7 +27,7 @@ const AppleLoginPage = () => {
     const state = 'state'; // Optional: Used for CSRF protection
 
     // Construct the Apple Auth URL with the necessary parameters
-    const appleAuthUrl = `https://appleid.apple.com/auth/authorize?response_type=code&response_mode=form_post&client_id=${clientId}&redirect_uri=${redirectUri}&scope=name%20email&state=${state}`;
+    const appleAuthUrl = `https://appleid.apple.com/auth/authorize?response_type=code&response_mode=query&client_id=${clientId}&redirect_uri=${redirectUri}&scope=name%20email&state=${state}`;
 
     // Redirect the user to Apple’s login page
     window.location.href = appleAuthUrl;
