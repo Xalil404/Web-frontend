@@ -11,7 +11,7 @@ const AppleLoginPage = () => {
           scope: 'name email',
           redirectURI: 'https://web-frontend-dun.vercel.app/auth/callback', // Replace with your redirect URI
           state: 'state', // Optional: Used for CSRF protection
-          usePopup: true, // Use popup for better UX
+          usePopup: false, // Use redirect method
         });
         console.log('AppleID SDK initialized');
       }
@@ -21,30 +21,6 @@ const AppleLoginPage = () => {
     initializeAppleSignIn();
   }, []);
 
-  // Handle Apple login process for pop-up
-  const handleAppleLoginPopup = () => {
-    if (!window.AppleID) {
-      console.error('AppleID SDK not loaded');
-      return;
-    }
-
-    window.AppleID.auth
-      .signIn()
-      .then((response) => {
-        const { id_token } = response.authorization;
-        console.log('Sending token:', id_token);
-
-        if (id_token) {
-          authenticateWithBackend(id_token);
-        } else {
-          console.error('Error: id_token is missing');
-        }
-      })
-      .catch((error) => {
-        console.error('Apple Sign-In error:', error);
-      });
-  };
-
   // Handle Apple login process for redirect
   const handleAppleLoginRedirect = () => {
     if (!window.AppleID) {
@@ -52,23 +28,17 @@ const AppleLoginPage = () => {
       return;
     }
 
-    window.AppleID.auth.signIn({
-      clientId: 'com.template.applicationwebproject', // Replace with your Apple client ID
-      scope: 'name email',
-      redirectURI: 'https://web-frontend-dun.vercel.app/auth/callback', // Replace with your redirect URI
-      state: 'state', // Optional: Used for CSRF protection
-      usePopup: false, // Use redirect for this method
-    });
+    window.AppleID.auth.signIn();
   };
 
-  // Send id_token to backend for verification
-  const authenticateWithBackend = (id_token) => {
-    fetch('https://backend-django-9c363a145383.herokuapp.com/api/auth/apple/web/', {
+  // Send code to backend for verification
+  const authenticateWithBackend = (code) => {
+    fetch('https://backend-django-9c363a145383.herokuapp.com/api/auth/apple/web/redirect/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ token: id_token }),
+      body: JSON.stringify({ code }),
     })
       .then((response) => {
         if (!response.ok) {
@@ -98,9 +68,6 @@ const AppleLoginPage = () => {
   return (
     <div className="apple-login-container">
       <h2>Login with Apple</h2>
-      <button onClick={handleAppleLoginPopup} className="apple-signin-button">
-        Sign in with Apple (Popup)
-      </button>
       <button onClick={handleAppleLoginRedirect} className="apple-signin-button">
         Sign in with Apple (Redirect)
       </button>
@@ -109,5 +76,6 @@ const AppleLoginPage = () => {
 };
 
 export default AppleLoginPage;
+
 
 
