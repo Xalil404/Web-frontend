@@ -6,6 +6,10 @@ const AppleRedirectLogin = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    handleAppleRedirect(); // Call the function when the component mounts
+  }, []);
+
   // Function to handle the redirect response from Apple
   const handleAppleRedirect = async () => {
     const params = new URLSearchParams(window.location.search);
@@ -50,15 +54,11 @@ const AppleRedirectLogin = () => {
     }
   };
 
-  useEffect(() => {
-    handleAppleRedirect(); // Call the function when the component mounts
-  }, []);
-
   const handleLogin = () => {
     // Redirect the user to Apple's login page
     const clientId = 'com.template.applicationwebproject';
     const redirectUri = 'https://web-frontend-dun.vercel.app/apple-redirect';
-    const appleAuthUrl = `https://appleid.apple.com/auth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code%20id_token&response_mode=form_post&scope=name%20email&state=random_state`;
+    const appleAuthUrl = `https://appleid.apple.com/auth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&response_mode=form_post&scope=name%20email&state=random_state`;
 
     window.location.href = appleAuthUrl; // Redirect the user
   };
@@ -77,8 +77,6 @@ const AppleRedirectLogin = () => {
 };
 
 export default AppleRedirectLogin;
-
-
 
 
 
