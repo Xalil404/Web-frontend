@@ -49,9 +49,9 @@ const AppleRedirectLoginPage = () => {
     return (
         <div className="apple-login-container">
             <h2>Login with Apple</h2>
-            <a href={`https://appleid.apple.com/auth/authorize?client_id=com.template.applicationwebproject&redirect_uri=https://web-frontend-dun.vercel.app/auth/callback&response_type=code&scope=name email&state=state`}>
-                Sign in with Apple
-            </a>
+            <a href={`https://appleid.apple.com/auth/authorize?client_id=com.template.applicationwebproject&redirect_uri=https://web-frontend-dun.vercel.app/auth/callback&response_type=code&scope=name email&state=state&response_mode=form_post`}>
+    Sign in with Apple
+</a>
         </div>
     );
 };
