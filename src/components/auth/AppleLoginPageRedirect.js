@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const AppleLoginPage = () => {
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate(); // Use navigate instead of useHistory
 
   // Load Apple Sign-In SDK and initialize
   useEffect(() => {
@@ -68,7 +68,7 @@ const AppleLoginPage = () => {
           console.log('Auth Token:', localStorage.getItem('authToken')); // Check if token is saved
 
           // Redirect to the specified location (e.g., dashboard)
-          history.push(data.redirect);
+          navigate(data.redirect); // Use navigate instead of history.push
         } else {
           console.error('Error during authentication:', data.error);
         }
