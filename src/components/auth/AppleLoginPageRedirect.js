@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 const AppleLoginPage = () => {
+  const location = useLocation();
 
   // Load Apple Sign-In SDK and initialize
   useEffect(() => {
@@ -30,6 +32,16 @@ const AppleLoginPage = () => {
 
     window.AppleID.auth.signIn();
   };
+
+  // Process the code received in the callback URL
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const code = params.get('code');
+
+    if (code) {
+      authenticateWithBackend(code);
+    }
+  }, [location]);
 
   // Send code to backend for verification
   const authenticateWithBackend = (code) => {
