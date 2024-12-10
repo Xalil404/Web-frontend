@@ -5,25 +5,6 @@ const AppleRedirectLogin = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Load Apple Sign-In SDK and initialize
-  useEffect(() => {
-    const initializeAppleSignIn = () => {
-      if (window.AppleID) {
-        window.AppleID.auth.init({
-          clientId: 'com.template.applicationwebproject', // Replace with your Apple client ID
-          scope: 'name email',
-          redirectURI: 'https://web-frontend-dun.vercel.app/apple-redirect', // Replace with your redirect URI
-          state: 'state', // Optional: Used for CSRF protection
-          usePopup: false, // Use redirect method
-        });
-        console.log('AppleID SDK initialized');
-      }
-    };
-
-    // Ensure SDK loads after component mounts
-    initializeAppleSignIn();
-  }, []);
-
   // Handle Apple login process for redirect
   const handleAppleLoginRedirect = () => {
     if (!window.AppleID) {
@@ -74,6 +55,7 @@ const AppleRedirectLogin = () => {
       <button onClick={handleAppleLoginRedirect} className="apple-signin-button">
         Sign in with Apple (Redirect)
       </button>
+      {location.search && <div>Authenticating...</div>}  {/* Display while processing */}
     </div>
   );
 };
