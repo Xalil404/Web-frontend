@@ -58,7 +58,7 @@ const AppleRedirectLogin = () => {
     // Redirect the user to Apple's login page
     const clientId = 'com.template.applicationwebproject';
     const redirectUri = 'https://web-frontend-dun.vercel.app/apple-redirect';
-    const appleAuthUrl = `https://appleid.apple.com/auth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=name%20email&state=random_state`;
+    const appleAuthUrl = `https://appleid.apple.com/auth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code%20id_token&response_mode=form_post&scope=name%20email&state=random_state`;
 
     window.location.href = appleAuthUrl; // Redirect the user
   };
