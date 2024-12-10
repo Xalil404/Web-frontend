@@ -20,7 +20,6 @@ import GoogleLoginPagePopup from './components/auth/GoogleLoginPagePopup';
 import GoogleRedirectLogin from './components/auth/GoogleRedirectLogin';
 import AppleLoginPage from './components/auth/AppleLoginPage';
 import AppleLoginPageRedirect from './components/auth/AppleLoginPageRedirect';
-import AppleFormHandler from './components/auth/AppleFormHandler';
 
 
 
@@ -39,8 +38,7 @@ const App = () => {
               <Route path="/google-login" element={<GoogleLoginPagePopup />} />
               <Route path="/google-redirect" element={<GoogleRedirectLogin />} />
               <Route path="/apple-login" element={<AppleLoginPage />} />
-              <Route path="/apple-redirect" element={<AppleFormHandler />} />
-              <Route path="/apple-redirect-page" element={<AppleLoginPageRedirect />} />
+              <Route path="/apple-redirect" element={<AppleLoginPageRedirect />} />
               <Route 
                     path="/dashboard" 
                     element={
