@@ -5,6 +5,7 @@ const AppleRedirectLogin = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  // Load Apple Sign-In SDK and initialize
   useEffect(() => {
     const initializeAppleSignIn = () => {
       if (window.AppleID) {
@@ -22,6 +23,16 @@ const AppleRedirectLogin = () => {
     // Ensure SDK loads after component mounts
     initializeAppleSignIn();
   }, []);
+
+  // Handle Apple login process for redirect
+  const handleAppleLoginRedirect = () => {
+    if (!window.AppleID) {
+      console.error('AppleID SDK not loaded');
+      return;
+    }
+
+    window.AppleID.auth.signIn();
+  };
 
   // Process the code received in the callback URL
   useEffect(() => {
@@ -57,7 +68,14 @@ const AppleRedirectLogin = () => {
     }
   }, [location, navigate]);
 
-  return <div>Authenticating...</div>;
+  return (
+    <div className="apple-login-container">
+      <h2>Login with Apple</h2>
+      <button onClick={handleAppleLoginRedirect} className="apple-signin-button">
+        Sign in with Apple (Redirect)
+      </button>
+    </div>
+  );
 };
 
 export default AppleRedirectLogin;
