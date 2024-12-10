@@ -74,9 +74,6 @@ const AppleLoginPage = () => {
       <button onClick={handleAppleLoginRedirect} className="apple-signin-button">
         Sign in with Apple (Redirect)
       </button>
-      <div>
-        {location.pathname === "/auth/callback" && <div>Authenticating...</div>}
-      </div>
     </div>
   );
 };
