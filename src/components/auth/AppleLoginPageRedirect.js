@@ -12,7 +12,7 @@ const AppleLoginPage = () => {
         window.AppleID.auth.init({
           clientId: 'com.template.applicationwebproject', // Replace with your Apple client ID
           scope: 'name email',
-          redirectURI: 'https://web-frontend-dun.vercel.app/auth/callback', // Replace with your redirect URI
+          redirectURI: 'https://web-frontend-dun.vercel.app/apple-redirect', // Replace with your redirect URI
           state: 'state', // Optional: Used for CSRF protection
           usePopup: false, // Use redirect method
         });
