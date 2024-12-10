@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-const AppleLoginPage = () => {
+const AppleRedirectLogin = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Load Apple Sign-In SDK and initialize
   useEffect(() => {
     const initializeAppleSignIn = () => {
       if (window.AppleID) {
@@ -23,16 +22,6 @@ const AppleLoginPage = () => {
     // Ensure SDK loads after component mounts
     initializeAppleSignIn();
   }, []);
-
-  // Handle Apple login process for redirect
-  const handleAppleLoginRedirect = () => {
-    if (!window.AppleID) {
-      console.error('AppleID SDK not loaded');
-      return;
-    }
-
-    window.AppleID.auth.signIn();
-  };
 
   // Process the code received in the callback URL
   useEffect(() => {
@@ -68,17 +57,11 @@ const AppleLoginPage = () => {
     }
   }, [location, navigate]);
 
-  return (
-    <div className="apple-login-container">
-      <h2>Login with Apple</h2>
-      <button onClick={handleAppleLoginRedirect} className="apple-signin-button">
-        Sign in with Apple (Redirect)
-      </button>
-    </div>
-  );
+  return <div>Authenticating...</div>;
 };
 
-export default AppleLoginPage;
+export default AppleRedirectLogin;
+
 
 
 
