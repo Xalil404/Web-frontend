@@ -40,7 +40,7 @@ const AppleLoginPage = () => {
     const code = params.get('code');
 
     if (code) {
-      // Redirect to the backend with the code
+      // Send code to backend for verification
       fetch('https://backend-django-9c363a145383.herokuapp.com/api/auth/apple/web/redirect/', {
         method: 'POST',
         headers: {
@@ -56,9 +56,8 @@ const AppleLoginPage = () => {
         })
         .then((data) => {
           if (data.token) {
-            console.log('Authentication successful:', data);
-            localStorage.setItem('authToken', data.token); 
-            navigate(data.redirect);
+            localStorage.setItem('authToken', data.token);
+            navigate(data.redirect); // Navigate to the redirect URL
           } else {
             console.error('Error during authentication:', data.error);
           }
@@ -75,6 +74,9 @@ const AppleLoginPage = () => {
       <button onClick={handleAppleLoginRedirect} className="apple-signin-button">
         Sign in with Apple (Redirect)
       </button>
+      <div>
+        {location.pathname === "/auth/callback" && <div>Authenticating...</div>}
+      </div>
     </div>
   );
 };
