@@ -6,14 +6,21 @@ const AppleRedirectLogin = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    handleAppleRedirect(); // Call the function when the component mounts
-  }, []);
-
   // Function to handle the redirect response from Apple
   const handleAppleRedirect = async () => {
-    const params = new URLSearchParams(window.location.search);
-    const code = params.get('code'); // Apple provides the authorization code in the URL
+    // Check if the form data is available
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+
+    // Alternatively, Apple might send a form POST request, let's check for this too
+    const formElement = document.getElementById('apple-auth-form');
+    if (formElement) {
+      const formData = new FormData(formElement);
+      const formCode = formData.get('code');
+      if (formCode) {
+        code = formCode;
+      }
+    }
 
     if (!code) {
       return; // Exit the function if there's no authorization code
@@ -54,10 +61,14 @@ const AppleRedirectLogin = () => {
     }
   };
 
+  useEffect(() => {
+    handleAppleRedirect(); // Call the function when the component mounts
+  }, []);
+
   const handleLogin = () => {
     // Redirect the user to Apple's login page
     const clientId = 'com.template.applicationwebproject';
-    const redirectUri = 'https://web-frontend-dun.vercel.app/apple-redirect/';
+    const redirectUri = 'https://web-frontend-dun.vercel.app/apple-redirect';
     const appleAuthUrl = `https://appleid.apple.com/auth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&response_mode=form_post&scope=name%20email&state=random_state`;
 
     window.location.href = appleAuthUrl; // Redirect the user
@@ -72,11 +83,16 @@ const AppleRedirectLogin = () => {
       </button>
 
       {error && <p style={{ color: 'red' }}>{error}</p>}
+
+      {/* Hidden form to capture POST data */}
+      <form id="apple-auth-form" method="post">
+        <input type="hidden" name="code" />
+        <input type="hidden" name="state" />
+      </form>
     </div>
   );
 };
 
 export default AppleRedirectLogin;
-
 
 
