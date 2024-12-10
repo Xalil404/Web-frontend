@@ -36,6 +36,7 @@ const AppleRedirectLoginPage = () => {
                 console.log('Auth Token:', localStorage.getItem('authToken')); // Check if token is saved
 
                 // Redirect to the specified location (e.g., dashboard)
+                console.log('Redirecting to:', data.redirect);
                 window.location.href = data.redirect;
             } else {
                 console.error('Error during authentication:', data.error);
@@ -50,11 +51,10 @@ const AppleRedirectLoginPage = () => {
         <div className="apple-login-container">
             <h2>Login with Apple</h2>
             <a href={`https://appleid.apple.com/auth/authorize?client_id=com.template.applicationwebproject&redirect_uri=https://web-frontend-dun.vercel.app/auth/callback&response_type=code&scope=name email&state=state&response_mode=form_post`}>
-    Sign in with Apple
-</a>
+                Sign in with Apple
+            </a>
         </div>
     );
 };
 
 export default AppleRedirectLoginPage;
-
