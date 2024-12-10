@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 const AppleLoginPage = () => {
   const location = useLocation();
-  const navigate = useNavigate(); // Use navigate instead of useHistory
+  const navigate = useNavigate();
 
   // Load Apple Sign-In SDK and initialize
   useEffect(() => {
@@ -40,43 +40,34 @@ const AppleLoginPage = () => {
     const code = params.get('code');
 
     if (code) {
-      authenticateWithBackend(code);
+      // Redirect to the backend with the code
+      fetch('https://backend-django-9c363a145383.herokuapp.com/api/auth/apple/web/redirect/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ code }),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          if (data.token) {
+            console.log('Authentication successful:', data);
+            localStorage.setItem('authToken', data.token); 
+            navigate(data.redirect);
+          } else {
+            console.error('Error during authentication:', data.error);
+          }
+        })
+        .catch((error) => {
+          console.error('Error during fetch:', error.message);
+        });
     }
-  }, [location]);
-
-  // Send code to backend for verification
-  const authenticateWithBackend = (code) => {
-    fetch('https://backend-django-9c363a145383.herokuapp.com/api/auth/apple/web/redirect/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ code }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (data.token) {
-          console.log('Authentication successful:', data);
-
-          // Store the token under 'authToken' for all login types
-          localStorage.setItem('authToken', data.token); 
-          console.log('Auth Token:', localStorage.getItem('authToken')); // Check if token is saved
-
-          // Redirect to the specified location (e.g., dashboard)
-          navigate(data.redirect); // Use navigate instead of history.push
-        } else {
-          console.error('Error during authentication:', data.error);
-        }
-      })
-      .catch((error) => {
-        console.error('Error during fetch:', error.message);
-      });
-  };
+  }, [location, navigate]);
 
   return (
     <div className="apple-login-container">
