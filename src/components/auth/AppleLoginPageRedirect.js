@@ -5,14 +5,32 @@ const AppleRedirectLogin = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  // Initialize Apple Sign-In SDK
+  useEffect(() => {
+    const initializeAppleSignIn = () => {
+      if (window.AppleID) {
+        window.AppleID.auth.init({
+          clientId: 'com.template.applicationwebproject', // Replace with your Apple client ID
+          scope: 'name email',
+          redirectURI: 'https://web-frontend-dun.vercel.app/apple-redirect', // Replace with your redirect URI
+          state: 'state', // Optional: Used for CSRF protection
+          usePopup: false, // Use redirect method
+        });
+        console.log('AppleID SDK initialized');
+      }
+    };
+
+    // Ensure SDK loads after component mounts
+    initializeAppleSignIn();
+  }, []);
+
   // Handle Apple login process for redirect
   const handleAppleLoginRedirect = () => {
-    if (!window.AppleID) {
-      console.error('AppleID SDK not loaded');
-      return;
+    if (window.AppleID && window.AppleID.auth) {
+      window.AppleID.auth.signIn();
+    } else {
+      console.error('AppleID SDK not loaded or initialized');
     }
-
-    window.AppleID.auth.signIn();
   };
 
   // Process the code received in the callback URL
@@ -38,7 +56,7 @@ const AppleRedirectLogin = () => {
         .then((data) => {
           if (data.token) {
             localStorage.setItem('authToken', data.token);
-            navigate(data.redirect); // Navigate to the redirect URL
+            navigate('/dashboard'); // Navigate to the dashboard URL
           } else {
             console.error('Error during authentication:', data.error);
           }
@@ -55,7 +73,7 @@ const AppleRedirectLogin = () => {
       <button onClick={handleAppleLoginRedirect} className="apple-signin-button">
         Sign in with Apple (Redirect)
       </button>
-      {location.search && <div>Authenticating...</div>}  {/* Display while processing */}
+      {location.search && <div>Authenticating...</div>} {/* Display while processing */}
     </div>
   );
 };
