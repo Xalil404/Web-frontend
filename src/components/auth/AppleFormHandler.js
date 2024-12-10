@@ -12,6 +12,7 @@ const AppleFormHandler = () => {
 
     const formData = new FormData(event.target);
     const code = formData.get('code');
+    const state = formData.get('state');
 
     if (!code) {
       setError('Authorization code is missing');
@@ -27,7 +28,7 @@ const AppleFormHandler = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ code }),
+        body: JSON.stringify({ code, state }),
       });
 
       const data = await response.json();
@@ -53,10 +54,31 @@ const AppleFormHandler = () => {
     }
   };
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code');
+    const state = params.get('state');
+
+    if (code && state) {
+      const form = document.getElementById('apple-auth-form');
+      const codeInput = document.createElement('input');
+      codeInput.type = 'hidden';
+      codeInput.name = 'code';
+      codeInput.value = code;
+      form.appendChild(codeInput);
+
+      const stateInput = document.createElement('input');
+      stateInput.type = 'hidden';
+      stateInput.name = 'state';
+      stateInput.value = state;
+      form.appendChild(stateInput);
+
+      form.submit();
+    }
+  }, []);
+
   return (
-    <form onSubmit={handleAppleFormSubmit}>
-      <input type="hidden" name="code" />
-      <input type="hidden" name="state" />
+    <form id="apple-auth-form" onSubmit={handleAppleFormSubmit}>
       <button type="submit" disabled={loading}>
         {loading ? 'Authenticating...' : 'Submit'}
       </button>
