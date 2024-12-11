@@ -103,7 +103,7 @@ const authenticateWithBackend = (id_token) => {
           color: '#fff', // White text color
           fontFamily: 'Roboto, sans-serif', // Apple font family
           fontSize: '16px', // Font size
-          fontWeight: '500', // Medium font weight
+          fontWeight: '700', // Medium font weight
           borderRadius: '4px', // Rounded corners for pill shape
           border: 'none', // No border
           cursor: 'pointer', // Pointer cursor on hover
