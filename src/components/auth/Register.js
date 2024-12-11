@@ -51,6 +51,16 @@ const Register = () => {
                         <div className="card-header-1 text-center card-header-custom">
                             <h2>Sign Up to Project Name</h2>
                         </div>
+                         {/* Divider with text */}
+                         <div className="text-center my-3">
+                                <div className="d-flex align-items-center justify-content-center">
+                                    <hr className="flex-grow-1 border-top border-secondary" />
+                                    <span className="mx-3 text-dark" style={{ whiteSpace: 'nowrap' }}>
+                                        or sign up with email
+                                    </span>
+                                    <hr className="flex-grow-1 border-top border-secondary" />
+                                </div>
+                            </div>
                         <div className="card-body">
                             <form onSubmit={handleSubmit}>
                                 {/* Continue with email button */}

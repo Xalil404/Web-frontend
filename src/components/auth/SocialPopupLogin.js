@@ -6,8 +6,8 @@ import { loginUser } from '../../services/api';
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [authError, setAuthError] = useState({ emailPassword: null, google: null, apple: null });
+    const [authLoading, setAuthLoading] = useState({ emailPassword: false, google: false, apple: false });
     const navigate = useNavigate();
 
     // Initialize Apple Sign-In SDK
@@ -24,10 +24,10 @@ const Login = () => {
     }, []);
 
     // Handle email/password login
-    const handleSubmit = async (e) => {
+    const handleEmailPasswordLogin = async (e) => {
         e.preventDefault();
-        setLoading(true);
-        setError(null);
+        setAuthLoading((prev) => ({ ...prev, emailPassword: true }));
+        setAuthError((prev) => ({ ...prev, emailPassword: null }));
 
         try {
             const response = await loginUser({ email, password });
@@ -37,33 +37,48 @@ const Login = () => {
             const errorMessage = error.non_field_errors
                 ? error.non_field_errors[0]
                 : 'Login failed. Please try again.';
-            setError(errorMessage);
+            setAuthError((prev) => ({ ...prev, emailPassword: errorMessage }));
         } finally {
-            setLoading(false);
+            setAuthLoading((prev) => ({ ...prev, emailPassword: false }));
         }
     };
 
     // Handle Apple login
     const handleAppleLogin = () => {
-        if (!window.AppleID) return console.error('AppleID SDK not loaded');
+        setAuthLoading((prev) => ({ ...prev, apple: true }));
+        setAuthError((prev) => ({ ...prev, apple: null }));
+
+        if (!window.AppleID) {
+            console.error('AppleID SDK not loaded');
+            setAuthError((prev) => ({ ...prev, apple: 'Apple SDK not loaded.' }));
+            setAuthLoading((prev) => ({ ...prev, apple: false }));
+            return;
+        }
 
         window.AppleID.auth
             .signIn()
             .then((response) => {
                 const { id_token } = response.authorization;
-                authenticateWithBackend(id_token, 'apple');
+                authenticateWithBackend(id_token, 'apple', 'apple');
             })
-            .catch((error) => console.error('Apple Sign-In error:', error));
+            .catch((error) => {
+                console.error('Apple Sign-In error:', error);
+                setAuthError((prev) => ({ ...prev, apple: 'Apple login failed. Please try again.' }));
+                setAuthLoading((prev) => ({ ...prev, apple: false }));
+            });
     };
 
     // Handle Google login
     const handleGoogleLogin = (response) => {
+        setAuthLoading((prev) => ({ ...prev, google: true }));
+        setAuthError((prev) => ({ ...prev, google: null }));
+
         const token = response.credential;
-        authenticateWithBackend(token, 'google');
+        authenticateWithBackend(token, 'google', 'google');
     };
 
     // Authenticate token with the backend
-    const authenticateWithBackend = (token, provider) => {
+    const authenticateWithBackend = (token, provider, errorKey) => {
         fetch(`https://backend-django-9c363a145383.herokuapp.com/api/auth/${provider}/`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -76,9 +91,16 @@ const Login = () => {
                     navigate('/dashboard');
                 } else {
                     console.error('Authentication failed:', data.error);
+                    setAuthError((prev) => ({ ...prev, [errorKey]: 'Authentication failed. Please try again.' }));
                 }
             })
-            .catch((error) => console.error('Error during authentication:', error));
+            .catch((error) => {
+                console.error('Error during authentication:', error);
+                setAuthError((prev) => ({ ...prev, [errorKey]: 'An error occurred. Please try again.' }));
+            })
+            .finally(() => {
+                setAuthLoading((prev) => ({ ...prev, [errorKey]: false }));
+            });
     };
 
     return (
@@ -102,24 +124,29 @@ const Login = () => {
                                 onClick={handleAppleLogin}
                                 className="btn btn-dark mb-3 w-100"
                                 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                                disabled={authLoading.apple}
                             >
                                 <img
                                     src="https://res.cloudinary.com/dnbbm9vzi/image/upload/v1733920625/Screenshot_2024-12-11_at_11.18.52_AM-removebg-preview_fb6w8s.png"
                                     alt="Apple logo"
                                     style={{ width: '20px', height: '20px', marginRight: '10px' }}
                                 />
-                                Sign in with Apple
+                                {authLoading.apple ? 'Signing in with Apple...' : 'Sign in with Apple'}
                             </button>
+                            {authError.apple && <p style={{ color: 'red' }}>{authError.apple}</p>}
 
                             {/* Google Login */}
                             <GoogleOAuthProvider clientId="26271032790-djnijd5ookmvg0d58pneg2l8l6bdgvbn.apps.googleusercontent.com">
                                 <GoogleLogin
                                     onSuccess={handleGoogleLogin}
-                                    onError={() => console.error('Google Login Failed')}
+                                    onError={() =>
+                                        setAuthError((prev) => ({ ...prev, google: 'Google login failed.' }))
+                                    }
                                     className="mb-3 w-100"
                                     ux_mode="popup"
                                 />
                             </GoogleOAuthProvider>
+                            {authError.google && <p style={{ color: 'red' }}>{authError.google}</p>}
 
                             {/* Divider with text */}
                             <div className="text-center my-3">
@@ -132,9 +159,8 @@ const Login = () => {
                                 </div>
                             </div>
 
-
                             {/* Email/Password Login */}
-                            <form onSubmit={handleSubmit}>
+                            <form onSubmit={handleEmailPasswordLogin}>
                                 <input
                                     type="email"
                                     className="form-control mb-3"
@@ -155,13 +181,12 @@ const Login = () => {
                                     type="submit"
                                     className="btn btn-lg mx-auto d-block w-100 py-3 rounded-button"
                                     style={{ backgroundColor: '#E8BF73', color: 'black' }}
-                                    disabled={loading}
+                                    disabled={authLoading.emailPassword}
                                 >
-                                    {loading ? 'Logging in...' : 'Sign In'}
+                                    {authLoading.emailPassword ? 'Logging in...' : 'Sign In'}
                                 </button>
                             </form>
-
-                            {error && <p style={{ color: 'red' }}>{error}</p>}
+                            {authError.emailPassword && <p style={{ color: 'red' }}>{authError.emailPassword}</p>}
 
                             <p className="text-center mt-3">
                                 <a href="https://backend-django-9c363a145383.herokuapp.com/accounts/password/reset/" className="text-dark">
@@ -183,3 +208,4 @@ const Login = () => {
 };
 
 export default Login;
+
