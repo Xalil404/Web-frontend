@@ -66,6 +66,16 @@ const AppleRedirectLoginPage = () => {
       fontWeight: 'bold', // Bold text
     }}
   >
+    {/* Apple Logo */}
+    <img
+          src="https://res.cloudinary.com/dnbbm9vzi/image/upload/v1733915956/Screenshot_2024-12-11_at_11.18.52_AM_em2xfe.png"
+          alt="Apple logo"
+          style={{
+            width: '20px', // Apple logo size
+            height: '20px', // Apple logo size
+            marginRight: '10px', // Space between logo and text
+          }}
+        />
     Sign in with Apple
   </a>
 </div>

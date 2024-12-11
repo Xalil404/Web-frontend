@@ -87,8 +87,38 @@ const authenticateWithBackend = (id_token) => {
   return (
     <div className="apple-login-container">
       <h2>Login with Apple</h2>
-      {/* Apple Sign-In Button rendered by the SDK */}
-      <div id="appleid-signin" className="apple-signin-button" style={{ width: '300px', height: '40px' }}></div>
+      {/* Custom Apple Button */}
+      <button
+        onClick={handleAppleLogin}
+        className="apple-signin-button"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '300px', // Width of the button
+          height: '50px', // Height of the button
+          backgroundColor: '#000', // Black background
+          color: '#fff', // White text color
+          fontFamily: 'Roboto, sans-serif', // Apple font family
+          fontSize: '16px', // Font size
+          fontWeight: '500', // Medium font weight
+          borderRadius: '25px', // Rounded corners for pill shape
+          border: 'none', // No border
+          cursor: 'pointer', // Pointer cursor on hover
+        }}
+      >
+        {/* Apple Logo */}
+        <img
+          src="https://res.cloudinary.com/dnbbm9vzi/image/upload/v1733915956/Screenshot_2024-12-11_at_11.18.52_AM_em2xfe.png"
+          alt="Apple logo"
+          style={{
+            width: '20px', // Apple logo size
+            height: '20px', // Apple logo size
+            marginRight: '10px', // Space between logo and text
+          }}
+        />
+        Sign in with Apple
+      </button>
     </div>
     /*
     <div className="apple-login-container">
