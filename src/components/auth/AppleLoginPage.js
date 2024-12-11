@@ -87,10 +87,17 @@ const authenticateWithBackend = (id_token) => {
   return (
     <div className="apple-login-container">
       <h2>Login with Apple</h2>
+      {/* Apple Sign-In Button rendered by the SDK */}
+      <div id="appleid-signin" className="apple-signin-button" style={{ width: '300px', height: '40px' }}></div>
+    </div>
+    /*
+    <div className="apple-login-container">
+      <h2>Login with Apple</h2>
       <button onClick={handleAppleLogin} className="apple-signin-button">
         Sign in with Apple
       </button>
     </div>
+    */
   );
 };
 

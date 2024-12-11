@@ -23,8 +23,6 @@ import AppleLoginPageRedirect from './components/auth/AppleLoginPageRedirect';
 
 
 
-
-
 const App = () => {
   return (
       <Router>

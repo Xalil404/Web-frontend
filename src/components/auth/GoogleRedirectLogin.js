@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // Only if using React Router
 
+
 const GoogleRedirectLogin = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -68,6 +69,41 @@ const GoogleRedirectLogin = () => {
 
   return (
     <div>
+      <h1>Google Login</h1>
+      <button
+        onClick={handleLogin}
+        disabled={loading}
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: '#4285F4', // Google blue
+          color: '#fff',
+          width: '300px', // Rectangle size
+          height: '50px',
+          borderRadius: '5px', // Rounded corners
+          fontSize: '16px',
+          fontWeight: 'bold',
+          border: 'none',
+          cursor: 'pointer',
+          paddingLeft: '10px', // Space between the icon and text
+          paddingRight: '10px', // Space between the icon and text
+        }}
+      >
+        {/* Google icon */}
+        <img
+          src="https://res.cloudinary.com/dnbbm9vzi/image/upload/v1733915214/web_neutral_rd_na_4x_ykttf8.png"
+          alt="Google Logo"
+          style={{ width: '40px', height: '40px', marginRight: '10px' }} // Adjust icon size
+        />
+        {loading ? 'Redirecting...' : 'Sign in with Google'}
+      </button>
+
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+    </div>
+
+    /*
+    <div>
       <h1>Google Redirect Login</h1>
 
       <button onClick={handleLogin} disabled={loading}>
@@ -76,6 +112,7 @@ const GoogleRedirectLogin = () => {
 
       {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>
+    */
   );
 };
 

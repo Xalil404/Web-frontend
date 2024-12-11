@@ -49,11 +49,35 @@ const AppleRedirectLoginPage = () => {
 
     return (
         <div className="apple-login-container">
+  <h2>Login with Apple</h2>
+  <a 
+    href={`https://appleid.apple.com/auth/authorize?client_id=com.template.applicationwebproject&redirect_uri=https://web-frontend-dun.vercel.app/auth/callback&response_type=code&scope=name email&state=state&response_mode=form_post`}
+    style={{
+      display: 'inline-block',
+      width: '300px',
+      height: '40px',
+      backgroundColor: '#000', // Apple button color
+      color: '#fff', // Text color
+      textAlign: 'center', // Center text
+      lineHeight: '40px', // Vertically center text
+      borderRadius: '10px', // Rounded corners
+      fontSize: '16px', // Adjust text size
+      textDecoration: 'none', // Remove underline
+      fontWeight: 'bold', // Bold text
+    }}
+  >
+    Sign in with Apple
+  </a>
+</div>
+
+        /*
+        <div className="apple-login-container">
             <h2>Login with Apple</h2>
             <a href={`https://appleid.apple.com/auth/authorize?client_id=com.template.applicationwebproject&redirect_uri=https://web-frontend-dun.vercel.app/auth/callback&response_type=code&scope=name email&state=state&response_mode=form_post`}>
                 Sign in with Apple
             </a>
         </div>
+        */
     );
 };
 
