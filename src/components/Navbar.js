@@ -97,6 +97,14 @@ const Header = () => {
                                 >
                                     Social Login
                                 </Link>
+
+                                <Link
+                                    className="nav-link-a d-none d-lg-block text-dark"
+                                    style={{ marginRight: '10px', textDecoration: 'none' }}
+                                    to="/social-register" // Adjust this to the path of your Google login page
+                                >
+                                    Social Register
+                                </Link>
                                
                                 <Link
                                     className="nav-link btn btn-sm rounded-pill px-4"

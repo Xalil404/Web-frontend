@@ -22,6 +22,7 @@ import AppleLoginPage from './components/auth/AppleLoginPage';
 import AppleLoginPageRedirect from './components/auth/AppleLoginPageRedirect';
 
 import SocialPopupLogin from './components/auth/SocialPopupLogin';
+import SocialPopupRegister from './components/auth/SocialPopupRegister';
 
 const App = () => {
   return (
@@ -38,6 +39,7 @@ const App = () => {
               <Route path="/apple-login" element={<AppleLoginPage />} />
               <Route path="/apple-redirect" element={<AppleLoginPageRedirect />} />
               <Route path="/social-login" element={<SocialPopupLogin />} />
+              <Route path="/social-register" element={<SocialPopupRegister />} />
               <Route 
                     path="/dashboard" 
                     element={
