@@ -86,7 +86,9 @@ const authenticateWithBackend = (id_token) => {
 
   return (
     <div className="apple-login-container">
+       {/*
       <h2>Login with Apple</h2>
+      */}
       {/* Custom Apple Button */}
       <button
         onClick={handleAppleLogin}
@@ -95,14 +97,14 @@ const authenticateWithBackend = (id_token) => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          width: '300px', // Width of the button
-          height: '50px', // Height of the button
+          width: '175px', // Width of the button
+          height: '40px', // Height of the button
           backgroundColor: '#000', // Black background
           color: '#fff', // White text color
           fontFamily: 'Roboto, sans-serif', // Apple font family
           fontSize: '16px', // Font size
           fontWeight: '500', // Medium font weight
-          borderRadius: '25px', // Rounded corners for pill shape
+          borderRadius: '4px', // Rounded corners for pill shape
           border: 'none', // No border
           cursor: 'pointer', // Pointer cursor on hover
         }}

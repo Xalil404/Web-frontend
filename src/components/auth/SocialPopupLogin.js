@@ -50,22 +50,15 @@ const Login = () => {
                             <h2>Sign in to Project Name</h2>
                         </div>
 
-                        {/* Divider with text */}
-                        <div className="text-center my-3">
-                            <div className="d-flex align-items-center justify-content-center">
-                                <hr className="flex-grow-1 border-top border-secondary" />
-                                <span className="mx-3 text-dark" style={{ whiteSpace: 'nowrap' }}>
-                                    or sign in with
-                                </span>
-                                <hr className="flex-grow-1 border-top border-secondary" />
-                            </div>
-                        </div>
-
                         <div className="card-body">
                             {/* Google and Apple Login Buttons */}
-                            <div className="social-login-buttons mb-3">
-                                <GoogleLoginPagePopup />
-                                <AppleLoginPage />
+                            <div className="social-login-buttons d-flex mb-3 justify-content-center">
+                                <div className="d-flex flex-column align-items-center mx-2">
+                                    <GoogleLoginPagePopup />
+                                </div>
+                                <div className="d-flex flex-column align-items-center mx-2">
+                                    <AppleLoginPage />
+                                </div>
                             </div>
 
                             {/* Divider */}

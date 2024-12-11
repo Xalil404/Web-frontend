@@ -42,7 +42,9 @@ const GoogleLoginPage = () => {
     return (
         <GoogleOAuthProvider clientId="26271032790-djnijd5ookmvg0d58pneg2l8l6bdgvbn.apps.googleusercontent.com">
             <div>
+                {/*}
                 <h1>Google Login</h1>
+                */}
                 <GoogleLogin
                     onSuccess={responseGoogle}
                     onError={() => console.error('Login Failed')}
