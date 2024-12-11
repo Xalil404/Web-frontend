@@ -109,7 +109,7 @@ const authenticateWithBackend = (id_token) => {
       >
         {/* Apple Logo */}
         <img
-          src="https://res.cloudinary.com/dnbbm9vzi/image/upload/v1733915956/Screenshot_2024-12-11_at_11.18.52_AM_em2xfe.png"
+          src="https://res.cloudinary.com/dnbbm9vzi/image/upload/v1733920625/Screenshot_2024-12-11_at_11.18.52_AM-removebg-preview_fb6w8s.png"
           alt="Apple logo"
           style={{
             width: '20px', // Apple logo size

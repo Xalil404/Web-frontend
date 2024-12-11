@@ -89,6 +89,14 @@ const Header = () => {
                                 >
                                     Apple Redirect
                                 </Link>
+
+                                <Link
+                                    className="nav-link-a d-none d-lg-block text-dark"
+                                    style={{ marginRight: '10px', textDecoration: 'none' }}
+                                    to="/social-login" // Adjust this to the path of your Google login page
+                                >
+                                    Social Login
+                                </Link>
                                
                                 <Link
                                     className="nav-link btn btn-sm rounded-pill px-4"
