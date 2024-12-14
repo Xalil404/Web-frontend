@@ -4,7 +4,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 This template is a ready front-end project template in React with a basic REST Api to work with a backend application that already has user authentication ready to go.
 
-Link to live site [here]().
+Link to live site [here](https://web-frontend-dun.vercel.app/).
 
 <p align="center">
 <img src="https://res.cloudinary.com/dnbbm9vzi/image/upload/v1732212810/Screenshot_2024-11-21_at_6.13.18_PM_brxjgt.png" width="auto" height="auto" alt="image of the React template website home page"></p>
